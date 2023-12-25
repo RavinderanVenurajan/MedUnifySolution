@@ -1,0 +1,52 @@
+﻿@page "/addvisit"
+@inject HttpClient httpClient
+@inject NavigationManager navigationManager
+@using MedUnifyUI.Models;
+@using MedUnifyUI.Services;
+
+
+@code {
+    private Visit newVisit = new Visit();
+    private List<Patient> patients;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            patients = await httpClient.GetFromJsonAsync<List<Patient>>("api/patients");
+        }
+        catch (Exception ex)
+        {
+        }
+    }
+
+    private async Task AddVisitAsync()
+    {
+        try
+        {
+            await httpClient.PostAsJsonAsync($"api/visits/{newVisit.PatientId}", newVisit);
+            navigationManager.NavigateTo("/patients");
+        }
+        catch (Exception ex)
+        {
+        }
+    }
+}
+
+<Container>
+    <h3>Add Visit</h3>
+
+    <FormGroup>
+        <Label for="patient">Patient:</Label>
+        <Select @bind="newVisit.PatientId" id="patient">
+            @foreach (var patient in patients)
+            {
+                <option value="@patient.Visits">@patient.FirstName @patient.LastName</option>
+            }
+        </Select>
+    </FormGroup>
+
+    <!-- Add more input fields for visit details -->
+
+    <Button @onclick="AddVisitAsync">Add Visit</Button>
+</Container>

@@ -1,0 +1,54 @@
+﻿@page "/addprogressnote"
+@inject HttpClient httpClient
+@inject NavigationManager navigationManager
+@using MedUnifyUI.Models;
+@using MedUnifyUI.Services;
+
+@code {
+    private ProgressNote newProgressNote = new ProgressNote();
+    private List<Patient> patients;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            patients = await httpClient.GetFromJsonAsync<List<Patient>>("api/patients");
+        }
+        catch (Exception ex)
+        {
+        }
+    }
+
+    private async Task AddProgressNoteAsync()
+    {
+        try
+        {
+            await httpClient.PostAsJsonAsync($"api/progressnotes/{newProgressNote.VisitId}", newProgressNote);
+            navigationManager.NavigateTo("/patients");
+        }
+        catch (Exception ex)
+        {
+        }
+    }
+}
+
+<Container>
+    <h3>Add Progress Note</h3>
+
+    <FormGroup>
+        <Label for="visit">Visit:</Label>
+        <Select @bind="newProgressNote.VisitId" id="visit">
+            @foreach (var patient in patients)
+            {
+                @foreach (var visit in patient.Visits)
+                {
+                    <option value="@visit.Id">@patient.FirstName @patient.LastName - Visit: @visit.Id</option>
+                }
+            }
+        </Select>
+    </FormGroup>
+
+    <!-- Add more input fields for progress note details -->
+
+    <Button @onclick="AddProgressNoteAsync">Add Progress Note</Button>
+</Container>

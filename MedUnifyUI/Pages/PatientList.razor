@@ -1,0 +1,55 @@
+﻿
+@page "/Patient"
+
+@using MedUnifyUI.Models;
+@using MedUnifyUI.Services;
+@inject HttpClient httpClient
+@inject IPatientInterface _IPatient
+
+@code {
+    private IEnumerable<Patient> patients;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            await base.OnInitializedAsync();
+            patients = await _IPatient.getPatient();
+        }
+        catch (Exception ex)
+        {
+         //  toastService.ShowError("Error loading patients. " + ex.Message);
+        }
+    }
+}
+
+<Container>
+    <h3>Patients List</h3>
+
+    @if (patients != null)
+    {
+        <Table>
+            <TableHeader>
+                <TableRow>
+                    <TableHeaderCell>Id</TableHeaderCell>
+                    <TableHeaderCell>FirstName</TableHeaderCell>
+                    <TableHeaderCell>LastName</TableHeaderCell>
+                    <!-- Add more columns as needed -->
+                </TableRow>
+            </TableHeader>
+            <TableBody>
+                @foreach (var patient in patients)
+                {
+                    <TableRow>
+                        <TableData>@patient.PatientId</TableData>
+                        <TableData>@patient.FirstName</TableData>
+                        <TableData>@patient.LastName</TableData>
+                        <!-- Display other patient details -->
+                    </TableRow>
+                }
+            </TableBody>
+        </Table>
+    }
+</Container>
+
+

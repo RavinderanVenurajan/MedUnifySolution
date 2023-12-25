@@ -1,0 +1,83 @@
+﻿@page "/addpatient"
+@inject HttpClient httpClient
+@inject NavigationManager navigationManager
+@using MedUnifyUI.Models;
+@using MedUnifyUI.Services;
+@inject HttpClient httpClient
+@inject IPatientInterface _IPatient
+
+
+@code {
+    private Patient newPatient = new Patient();
+
+    private async Task AddPatientAsync()
+    {
+        try
+        {
+            await base.OnInitializedAsync();
+            await httpClient.PostAsJsonAsync("api/patients", newPatient);
+          //  toastService.ShowSuccess("Patient added successfully.");
+            navigationManager.NavigateTo("/patients");
+        }
+        catch (Exception ex)
+        {
+            //toastService.ShowError("Error adding patient. " + ex.Message);
+        }
+    }
+}
+
+<Container>
+    <h3>Add Patient</h3>
+
+    <FormGroup>
+        <Label for="firstName">First Name:</Label>
+        <Input @bind="newPatient.FirstName" id="firstName" />
+    </FormGroup>
+
+    <FormGroup>
+        <Label for="lastName">Last Name:</Label>
+        <Input @bind="newPatient.LastName" id="lastName" />
+    </FormGroup>
+
+      <FormGroup>
+        <Label for="Address">Address:</Label>
+        <Input @bind="newPatient.Address" id="Address" />
+
+    </FormGroup>
+       <FormGroup>
+        <Label for="State">State:</Label>
+        <Input @bind="newPatient.State" id="State" />
+    </FormGroup>
+
+    
+       <FormGroup>
+        <Label for="City">City:</Label>
+        <Input @bind="newPatient.City" id="City" />
+    </FormGroup>
+
+    
+       <FormGroup>
+        <Label for="OrganizationId">OrganizationId:</Label>
+        <Input @bind="newPatient.OrganizationId" id="OrganizationId" />
+    </FormGroup>
+
+      
+       <FormGroup>
+        <Label for="CreatedAt">CreatedAt:</Label>
+        <Input @bind="newPatient.CreatedAt" id="CreatedAt" />
+    </FormGroup>
+
+    
+       <FormGroup>
+        <Label for="UpdatedAt">UpdatedAt:</Label>
+        <Input @bind="newPatient.UpdatedAt" id="UpdatedAt" />
+    </FormGroup>
+
+    
+       <FormGroup>
+        <Label for="IsDeleted">IsDeleted:</Label>
+        <Input @bind="newPatient.IsDeleted" id="IsDeleted" />
+    </FormGroup>
+
+    <Button @onclick="AddPatientAsync">Add Patient</Button>
+</Container>

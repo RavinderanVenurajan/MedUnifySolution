@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MedUnifyApi", "MedUnifyApi\MedUnifyApi.csproj", "{B20C8565-C2B2-4005-8D4A-2A1B3004EE4B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MedUnifyUI", "MedUnifyUI\MedUnifyUI.csproj", "{BDE84690-3F60-440A-9569-3FB7AABD521D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B20C8565-C2B2-4005-8D4A-2A1B3004EE4B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B20C8565-C2B2-4005-8D4A-2A1B3004EE4B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B20C8565-C2B2-4005-8D4A-2A1B3004EE4B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B20C8565-C2B2-4005-8D4A-2A1B3004EE4B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BDE84690-3F60-440A-9569-3FB7AABD521D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BDE84690-3F60-440A-9569-3FB7AABD521D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BDE84690-3F60-440A-9569-3FB7AABD521D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BDE84690-3F60-440A-9569-3FB7AABD521D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {FA9A0BD5-7773-4C55-8B23-5956E846AF58}
+	EndGlobalSection
+EndGlobal
