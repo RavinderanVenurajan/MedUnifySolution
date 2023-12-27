@@ -1,5 +1,5 @@
 ﻿using MedUnifyApi.Data;
-using MedUnifyApi.Models;
+using DataModel.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
 

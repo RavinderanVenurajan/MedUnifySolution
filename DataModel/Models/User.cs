@@ -1,4 +1,4 @@
-﻿namespace MedUnifyUI.Models
+﻿namespace DataModel.Models
 {
     public class User
     {

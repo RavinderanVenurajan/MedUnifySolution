@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MedUnifyApi", "MedUnifyApi\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MedUnifyUI", "MedUnifyUI\MedUnifyUI.csproj", "{BDE84690-3F60-440A-9569-3FB7AABD521D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataModel", "DataModel\DataModel.csproj", "{5F0AF11B-CB92-463B-A14A-44E88C8ABCFC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{BDE84690-3F60-440A-9569-3FB7AABD521D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BDE84690-3F60-440A-9569-3FB7AABD521D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BDE84690-3F60-440A-9569-3FB7AABD521D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5F0AF11B-CB92-463B-A14A-44E88C8ABCFC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5F0AF11B-CB92-463B-A14A-44E88C8ABCFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5F0AF11B-CB92-463B-A14A-44E88C8ABCFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5F0AF11B-CB92-463B-A14A-44E88C8ABCFC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

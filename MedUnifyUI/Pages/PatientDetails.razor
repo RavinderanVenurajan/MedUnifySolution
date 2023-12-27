@@ -1,0 +1,45 @@
+﻿@using DataModel.Models;
+@page "/patient-details/{patientId:int}"
+
+<h3>Patient Details</h3>
+
+@if (Patient != null)
+{
+    <dl class="row">
+        <dt class="col-sm-3">First Name</dt>
+        <dd class="col-sm-9">@Patient.FirstName</dd>
+
+        <dt class="col-sm-3">Last Name</dt>
+        <dd class="col-sm-9">@Patient.LastName</dd>
+
+        <dt class="col-sm-3">Address</dt>
+        <dd class="col-sm-9">@Patient.Address</dd>
+
+        <dt class="col-sm-3">State</dt>
+        <dd class="col-sm-9">@Patient.State</dd>
+
+        <dt class="col-sm-3">City</dt>
+        <dd class="col-sm-9">@Patient.City</dd>
+
+        <dt class="col-sm-3">Created At</dt>
+        <dd class="col-sm-9">@Patient.CreatedAt.ToString("yyyy-MM-dd HH:mm:ss")</dd>
+
+        <dt class="col-sm-3">Updated At</dt>
+        <dd class="col-sm-9">@Patient.UpdatedAt.ToString("yyyy-MM-dd HH:mm:ss")</dd>
+    </dl>
+}
+else
+{
+    <p>No patient details found.</p>
+}
+
+@code {
+    [Parameter] public int PatientId { get; set; }
+    private Patient Patient;
+
+    protected override void OnInitialized()
+    {
+        // Fetch and populate patient details from the API based on the patientId
+       // Patient = // Call your API service method to get patient details by id;
+    }
+}

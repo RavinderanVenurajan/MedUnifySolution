@@ -53,7 +53,7 @@ namespace MedUnifyApi.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Visits",
+                name: " ",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)

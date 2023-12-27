@@ -1,4 +1,5 @@
-﻿using MedUnifyApi.Models;
+﻿
+using DataModel.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;

@@ -1,7 +1,7 @@
 ﻿@page "/addprogressnote"
 @inject HttpClient httpClient
 @inject NavigationManager navigationManager
-@using MedUnifyUI.Models;
+@using DataModel.Models;
 @using MedUnifyUI.Services;
 
 @code {
@@ -40,10 +40,10 @@
         <Select @bind="newProgressNote.VisitId" id="visit">
             @foreach (var patient in patients)
             {
-                @foreach (var visit in patient.Visits)
+               @*  @foreach (var visit in patient.Visits)
                 {
                     <option value="@visit.Id">@patient.FirstName @patient.LastName - Visit: @visit.Id</option>
-                }
+                } *@
             }
         </Select>
     </FormGroup>

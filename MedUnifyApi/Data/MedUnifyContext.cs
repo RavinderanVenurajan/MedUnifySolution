@@ -1,4 +1,4 @@
-﻿using MedUnifyApi.Models;
+﻿using DataModel.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace MedUnifyApi.Data
@@ -8,7 +8,7 @@ namespace MedUnifyApi.Data
         public DbSet<Patient> Patients { get; set; }
         public DbSet<ProgressNote> ProgressNotes { get; set; }
         public DbSet<Visit> Visits { get; set; }
-        // ... other DbSets
+       
         public MedUnifyContext(DbContextOptions<MedUnifyContext> options)
                : base(options)
         {
@@ -46,7 +46,7 @@ namespace MedUnifyApi.Data
                  IsDeleted = false,
                  
              }
-             // Add more seed data for Patients as needed
+            
          );
 
             // Seed ProgressNotes table
@@ -69,10 +69,8 @@ namespace MedUnifyApi.Data
                     SectionText = "59 - Gradual decrease",
                     
                 }
-                // Add more seed data for ProgressNotes as needed
             );
 
-            // Add other seeding logic for additional tables
 
             base.OnModelCreating(modelBuilder);
         }

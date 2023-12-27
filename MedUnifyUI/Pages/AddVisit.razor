@@ -1,52 +1,134 @@
-﻿@page "/addvisit"
-@inject HttpClient httpClient
-@inject NavigationManager navigationManager
-@using MedUnifyUI.Models;
+﻿@page "/add-visit/{patientId}"
+@using DataModel.Models;
 @using MedUnifyUI.Services;
+@inject HttpClient httpClient
+@inject IVisitorService IVisitor
 
+<h3>Add Visit</h3>
+
+<div class="row">
+    <div class="col-md-6">
+        <!-- Existing form for adding a visit -->
+        <EditForm Model="@visitDto" OnValidSubmit="@AddVisitWithProgressNotes">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+
+            <div class="form-group">
+                <label for="patientId">Patient ID:</label>
+                <InputNumber id="patientId" @bind-Value="visitDto.PatientId" class="form-control" />
+            </div>
+
+            <div class="form-group">
+                <label for="visitDate">Visit Date:</label>
+                <InputDate id="visitDate" @bind-Value="visitDto.VisitDate" class="form-control" min="@DateTime.Now.ToString("yyyy-MM-dd HH:MM")" />
+                <ValidationMessage For="@(() => visitDto.VisitDate)" />
+            </div>
+
+            <!-- Dynamic form for progress notes -->
+           <br />
+             <div class="form-group">
+                <label>Progress Notes:</label>
+               
+               
+                        <div class="progress-note">
+                    <InputTextArea @bind-Value="Notes.SectionName" class="form-control" placeholder="Progress Note" rows="4" />
+                    <button type="button" style="text-align-last: right;" class="btn btn-primary" @onclick="AddProgressNote">Add Progress Note</button>
+                          @*   <InputText @bind-Value="Notes.SectionText" class="form-control" placeholder="Section Text" /> *@
+                        </div>
+            
+            </div> 
+            <br />
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </EditForm>
+    </div>
+
+    <!-- Display progress notes -->
+    <div class="col-md-6">
+        @if (visitDto != null)
+        {
+            <h4>Progress Notes for Patient @visitDto.PatientId</h4>
+            <ul>
+                @foreach (var note in visitDto.ProgressNotes)
+                {
+                    @if (note.SectionName!="")
+                    {
+                        <li>
+                            <strong>@note.SectionName</strong> 
+                        </li>
+                    }
+                }
+            </ul>
+        }
+        else
+        {
+            <p>No progress notes available for Patient @visitDto.PatientId.</p>
+        }
+    </div> 
+</div>
 
 @code {
-    private Visit newVisit = new Visit();
-    private List<Patient> patients;
+    [Parameter] 
+    public string PatientId { get; set; }
+    private Visit visitDto = new Visit();
+    public ProgressNote Notes = new ProgressNote();
+    private List<ProgressNote> progressNotes;
 
     protected override async Task OnInitializedAsync()
     {
-        try
-        {
-            patients = await httpClient.GetFromJsonAsync<List<Patient>>("api/patients");
-        }
-        catch (Exception ex)
-        {
-        }
+        // Set the PatientId from the parameter
+        visitDto.PatientId = Convert.ToInt32(PatientId);
+
+        InitializeNewVisit();
     }
 
-    private async Task AddVisitAsync()
+
+    private void InitializeNewVisit()
+    {
+        visitDto.ProgressNotes = new List<ProgressNote>();
+        AddProgressNote(); // Add an initial progress note
+    }
+
+    private async Task LoadProgressNotes()
     {
         try
         {
-            await httpClient.PostAsJsonAsync($"api/visits/{newVisit.PatientId}", newVisit);
-            navigationManager.NavigateTo("/patients");
+            // progressNotes = await HttpClient.GetFromJsonAsync<List<ProgressNote>>($"api/progressnotes/by-patient/{PatientId}");
         }
         catch (Exception ex)
         {
+            // Handle the exception, e.g., log or display an error message
+        }
+    }
+
+    private void AddProgressNote()
+    {
+        Notes.VisitId = visitDto.Id;
+        IVisitor.AddVisitProgressNotes(Notes);
+        // Add a new empty progress note to the list
+       // visitDto.ProgressNotes.Add(Notes);
+    }
+
+    private async Task AddVisitWithProgressNotes()
+    {
+        try
+        {
+            var result = await IVisitor.AddVisitWithProgressNotes(visitDto);
+
+            // Check the result and handle it as needed
+            if (result.IsSuccessStatusCode)
+            {
+                // Success, reload progress notes
+                await LoadProgressNotes();
+            }
+            else
+            {
+                // Failure, handle the error
+                // You may display an error message or log the error
+            }
+        }
+        catch (Exception ex)
+        {
+            // Handle the exception, e.g., log or display an error message
         }
     }
 }
-
-<Container>
-    <h3>Add Visit</h3>
-
-    <FormGroup>
-        <Label for="patient">Patient:</Label>
-        <Select @bind="newVisit.PatientId" id="patient">
-            @foreach (var patient in patients)
-            {
-                <option value="@patient.Visits">@patient.FirstName @patient.LastName</option>
-            }
-        </Select>
-    </FormGroup>
-
-    <!-- Add more input fields for visit details -->
-
-    <Button @onclick="AddVisitAsync">Add Visit</Button>
-</Container>

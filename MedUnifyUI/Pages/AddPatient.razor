@@ -1,83 +1,79 @@
-﻿@page "/addpatient"
-@inject HttpClient httpClient
-@inject NavigationManager navigationManager
-@using MedUnifyUI.Models;
+﻿@page "/add-patient"
+@using DataModel.Models;
 @using MedUnifyUI.Services;
 @inject HttpClient httpClient
 @inject IPatientInterface _IPatient
 
+<h3>Add Patient</h3>
+
+<!-- Form to add a new patient -->
+<EditForm Model="@newPatient" OnValidSubmit="AddPatients">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="form-group">
+        <label for="newPatient.FirstName">First Name</label>
+        <InputText @bind-Value="newPatient.FirstName" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label for="newPatient.LastName">Last Name</label>
+        <InputText @bind-Value="newPatient.LastName" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label for="newPatient.Address">Address</label>
+        <InputText @bind-Value="newPatient.Address" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label for="newPatient.State">State</label>
+        <InputText @bind-Value="newPatient.State" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label for="newPatient.City">City</label>
+        <InputText @bind-Value="newPatient.City" class="form-control" />
+    </div>
+
+    <!-- Add other patient properties here -->
+    <br />
+    <button type="submit" class="btn btn-primary">Add Patient</button>
+</EditForm>
 
 @code {
     private Patient newPatient = new Patient();
 
-    private async Task AddPatientAsync()
+    // [Inject]
+    // private ToastService ToastService { get; set; }
+
+    protected override void OnInitialized()
+    {
+        // Inject ApiService
+       // apiService = new ApiService(HttpClient); // Inject your actual ApiService
+
+       // patients = await _IPatient.AddPatient();
+
+        // Optional: Initialize newPatient with default values or perform other setup
+    }
+
+    private async Task AddPatients()
     {
         try
         {
-            await base.OnInitializedAsync();
-            await httpClient.PostAsJsonAsync("api/patients", newPatient);
-          //  toastService.ShowSuccess("Patient added successfully.");
-            navigationManager.NavigateTo("/patients");
+            // Call your API service method to add a new patient
+            await _IPatient.AddPatient(newPatient);
+
+            // Optionally, reset the form or perform other actions after successful addition
+            newPatient = new Patient();
+
+            // Show a success toast
+           // ToastService.ShowSuccess("Patient added successfully");
         }
         catch (Exception ex)
         {
-            //toastService.ShowError("Error adding patient. " + ex.Message);
+            // If an error occurs, show an error toast
+           // ToastService.ShowError($"Error adding patient: {ex.Message}");
         }
     }
 }
-
-<Container>
-    <h3>Add Patient</h3>
-
-    <FormGroup>
-        <Label for="firstName">First Name:</Label>
-        <Input @bind="newPatient.FirstName" id="firstName" />
-    </FormGroup>
-
-    <FormGroup>
-        <Label for="lastName">Last Name:</Label>
-        <Input @bind="newPatient.LastName" id="lastName" />
-    </FormGroup>
-
-      <FormGroup>
-        <Label for="Address">Address:</Label>
-        <Input @bind="newPatient.Address" id="Address" />
-
-    </FormGroup>
-       <FormGroup>
-        <Label for="State">State:</Label>
-        <Input @bind="newPatient.State" id="State" />
-    </FormGroup>
-
-    
-       <FormGroup>
-        <Label for="City">City:</Label>
-        <Input @bind="newPatient.City" id="City" />
-    </FormGroup>
-
-    
-       <FormGroup>
-        <Label for="OrganizationId">OrganizationId:</Label>
-        <Input @bind="newPatient.OrganizationId" id="OrganizationId" />
-    </FormGroup>
-
-      
-       <FormGroup>
-        <Label for="CreatedAt">CreatedAt:</Label>
-        <Input @bind="newPatient.CreatedAt" id="CreatedAt" />
-    </FormGroup>
-
-    
-       <FormGroup>
-        <Label for="UpdatedAt">UpdatedAt:</Label>
-        <Input @bind="newPatient.UpdatedAt" id="UpdatedAt" />
-    </FormGroup>
-
-    
-       <FormGroup>
-        <Label for="IsDeleted">IsDeleted:</Label>
-        <Input @bind="newPatient.IsDeleted" id="IsDeleted" />
-    </FormGroup>
-
-    <Button @onclick="AddPatientAsync">Add Patient</Button>
-</Container>

@@ -35,7 +35,11 @@ var configuration = builder.Configuration;
 builder.Services.AddDbContext<MedUnifyContext>(options =>
     options.UseSqlite(configuration.GetConnectionString("DefaultConnection")));
 
-
+builder.Services.AddCors(options =>
+    options.AddDefaultPolicy(builder =>
+        builder.WithOrigins("http://localhost:5070")
+            .AllowAnyHeader()
+            .AllowAnyMethod()));
 
 builder.Services.AddControllers();
 builder.Services.AddSwaggerGen(c =>
@@ -65,11 +69,12 @@ else
     app.UseExceptionHandler("/Home/Error");
     app.UseHsts();
 }
-
+app.UseCors();
 app.UseHttpsRedirection();
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
+
 
 app.MapControllers();
 

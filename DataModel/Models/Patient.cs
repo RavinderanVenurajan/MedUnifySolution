@@ -1,4 +1,4 @@
-﻿namespace MedUnifyApi.Models
+﻿namespace DataModel.Models
 {
     public class Patient
     {

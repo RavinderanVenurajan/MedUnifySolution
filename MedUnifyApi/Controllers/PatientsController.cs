@@ -1,5 +1,5 @@
 ﻿using MedUnifyApi.Data;
-using MedUnifyApi.Models;
+using DataModel.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -22,8 +22,13 @@ namespace MedUnifyApi.Controllers
         [HttpGet]
         public IActionResult GetPatients()
         {
+           
+            List <Patient> patients=new List<Patient>();
 
-            var patients = _context.Patients.ToList();
+            var patient = _context.Patients;
+            foreach(var pat in patient) {
+                patients.Add(pat);
+            }
             return Ok(patients);
         }
 
