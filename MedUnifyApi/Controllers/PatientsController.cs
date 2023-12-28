@@ -20,6 +20,7 @@ namespace MedUnifyApi.Controllers
 
         // GET: api/Patient
         [HttpGet]
+       
         public IActionResult GetPatients()
         {
            
@@ -34,6 +35,7 @@ namespace MedUnifyApi.Controllers
 
         // GET: api/Patient/5
         [HttpGet("{id}")]
+       
         public IActionResult GetPatient(int id)
         {
             var patient = _context.Patients.Find(id);
@@ -54,7 +56,8 @@ namespace MedUnifyApi.Controllers
             {
                 return BadRequest();
             }
-
+            patient.CreatedAt = DateTime.Now;
+            patient.UpdatedAt = DateTime.Now;
             _context.Patients.Add(patient);
             _context.SaveChanges();
 

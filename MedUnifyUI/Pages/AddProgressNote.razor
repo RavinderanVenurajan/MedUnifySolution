@@ -1,54 +1,83 @@
-﻿@page "/addprogressnote"
-@inject HttpClient httpClient
-@inject NavigationManager navigationManager
+﻿@page "/addprogressnotes/{visitId}/{PatientId}"
 @using DataModel.Models;
 @using MedUnifyUI.Services;
+@inject HttpClient httpClient
+@inject IVisitorService IVisitor
+@inject NavigationManager NavigationManager
+
+<h3>Add Progress Notes</h3>
+
+@if (visit != null)
+{
+    <form>
+        <label for="sectionName">Section Name:</label>
+        <input type="text" id="sectionName" @bind="newProgressNotes.SectionName" />
+
+        <label for="sectionText">Section Text:</label>
+        <textarea id="sectionText" @bind="newProgressNotes.SectionText"></textarea>
+
+
+        <button type="button" class="btn btn-primary" @onclick="AddProgressNotes">Add Progress Notes</button>
+    </form>
+    <br />
+    <div>
+    @if (progressNotes != null && progressNotes.Any())
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Section Name</th>
+                    <th>Section Text</th>
+                    <!-- Add other progress notes columns -->
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var note in progressNotes)
+                {
+                    <tr>
+                        <td>@note.SectionName</td>
+                        <td>@note.SectionText</td>
+                        <!-- Add other progress notes data -->
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p>No progress notes available.</p>
+    }
+    </div>
+}
+else
+{
+    <p>Loading...</p>
+}
 
 @code {
-    private ProgressNote newProgressNote = new ProgressNote();
-    private List<Patient> patients;
+    [Parameter]
+    public string VisitId { get; set; }
+    [Parameter]
+    public string PatientId { get; set; }
+
+    private Visit visit;
+    private ProgressNote newProgressNotes = new ProgressNote();
+    private List<ProgressNote> progressNotes;
 
     protected override async Task OnInitializedAsync()
     {
-        try
-        {
-            patients = await httpClient.GetFromJsonAsync<List<Patient>>("api/patients");
-        }
-        catch (Exception ex)
-        {
-        }
+        // Fetch visit details based on the provided visitId
+        visit = await IVisitor.GetVisitById(Convert.ToInt32(VisitId));
+        
     }
 
-    private async Task AddProgressNoteAsync()
+    private async Task AddProgressNotes()
     {
-        try
-        {
-            await httpClient.PostAsJsonAsync($"api/progressnotes/{newProgressNote.VisitId}", newProgressNote);
-            navigationManager.NavigateTo("/patients");
-        }
-        catch (Exception ex)
-        {
-        }
+        newProgressNotes.VisitId = Convert.ToInt32(VisitId);
+        await IVisitor.AddVisitProgressNotes(newProgressNotes);
+        progressNotes = await IVisitor.GetProgressNotesByVisitId(Convert.ToInt32(VisitId));
+        newProgressNotes.SectionName = string.Empty;
+        newProgressNotes.SectionText = string.Empty;
+    
     }
 }
-
-<Container>
-    <h3>Add Progress Note</h3>
-
-    <FormGroup>
-        <Label for="visit">Visit:</Label>
-        <Select @bind="newProgressNote.VisitId" id="visit">
-            @foreach (var patient in patients)
-            {
-               @*  @foreach (var visit in patient.Visits)
-                {
-                    <option value="@visit.Id">@patient.FirstName @patient.LastName - Visit: @visit.Id</option>
-                } *@
-            }
-        </Select>
-    </FormGroup>
-
-    <!-- Add more input fields for progress note details -->
-
-    <Button @onclick="AddProgressNoteAsync">Add Progress Note</Button>
-</Container>

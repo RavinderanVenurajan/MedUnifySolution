@@ -3,6 +3,7 @@
 @using MedUnifyUI.Services;
 @inject HttpClient httpClient
 @inject IPatientInterface _IPatient
+@inject NavigationManager NavigationManager
 
 <h3>Add Patient</h3>
 
@@ -36,7 +37,6 @@
         <InputText @bind-Value="newPatient.City" class="form-control" />
     </div>
 
-    <!-- Add other patient properties here -->
     <br />
     <button type="submit" class="btn btn-primary">Add Patient</button>
 </EditForm>
@@ -44,17 +44,11 @@
 @code {
     private Patient newPatient = new Patient();
 
-    // [Inject]
-    // private ToastService ToastService { get; set; }
+
 
     protected override void OnInitialized()
     {
-        // Inject ApiService
-       // apiService = new ApiService(HttpClient); // Inject your actual ApiService
-
-       // patients = await _IPatient.AddPatient();
-
-        // Optional: Initialize newPatient with default values or perform other setup
+      
     }
 
     private async Task AddPatients()
@@ -66,7 +60,7 @@
 
             // Optionally, reset the form or perform other actions after successful addition
             newPatient = new Patient();
-
+            NavigationManager.NavigateTo("/Patient");
             // Show a success toast
            // ToastService.ShowSuccess("Patient added successfully");
         }

@@ -14,7 +14,6 @@
     {
         try
         {
-            //  await base.OnInitializedAsync();
             await GetPatients();
 
         }
@@ -29,7 +28,23 @@
     }
     private void ViewPatientDetails(int patientId) =>
      
-        NavigationManager.NavigateTo($"/add-visit/{patientId}");
+        NavigationManager.NavigateTo($"/visit-list/{patientId}");
+
+    private void UpdatePatient(int patientId)
+    {
+        NavigationManager.NavigateTo($"/updatepatient/{patientId}");
+    }
+    private void AddPatientVisit(int patientId)
+    {
+        NavigationManager.NavigateTo($"/addvisit/{patientId}");
+    }
+    private async Task DeletePatient(int patientId)
+    {
+   
+        await _IPatient.DeletePatient(patientId);
+
+        patients = await _IPatient.getPatient();
+    }
 }
 
 <h3>Patient List</h3>
@@ -62,7 +77,12 @@
                     <td>@patient.CreatedAt.ToString("yyyy-MM-dd HH:mm:ss")</td>
                     <td>@patient.UpdatedAt.ToString("yyyy-MM-dd HH:mm:ss")</td>
                     <td>
-                        <button class="btn btn-primary" @onclick="() => ViewPatientDetails(patient.PatientId)">Add Visit</button>
+                        <button class="btn btn-primary" @onclick="() =>AddPatientVisit(patient.PatientId)">Add Visit</button>
+                        <button class="btn btn-primary" @onclick="() => ViewPatientDetails(patient.PatientId) ">View Visit</button>
+                    </td>
+                    <td>
+                        <button class="btn btn-warning" @onclick="()=> UpdatePatient(patient.PatientId)">Update</button>
+                        <button class="btn btn-danger" @onclick="()=> DeletePatient(patient.PatientId)">Delete</button>
                     </td>
                 </tr>
             }

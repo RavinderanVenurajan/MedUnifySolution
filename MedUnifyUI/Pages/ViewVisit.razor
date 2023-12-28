@@ -1,0 +1,73 @@
+﻿@page "/viewvisit/{VisitId}"
+@using DataModel.Models;
+@using MedUnifyUI.Services;
+@inject HttpClient httpClient
+@inject IPatientInterface _IPatient
+@inject NavigationManager NavigationManager
+@inject IVisitorService IVisitor
+
+<h3>Visit Details</h3>
+
+@if (visit != null)
+{
+    <div>
+        <p><strong>Visit Date:</strong> @visit.VisitDate.ToString("yyyy-MM-dd HH:mm")</p>
+       @*  <p><strong>Height:</strong> @visit.Height</p>
+        <p><strong>Weight:</strong> @visit.Weight</p>
+        <p><strong>Temperature:</strong> @visit.Temperature</p> *@
+        <!-- Add other visit details -->
+
+        <h4>Progress Notes</h4>
+
+        @if (progressNotes != null && progressNotes.Any())
+        {
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Section Name</th>
+                        <th>Section Text</th>
+                       
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var note in progressNotes)
+                    {
+                        <tr>
+                            <td>@note.SectionName</td>
+                            <td>@note.SectionText</td>
+                          
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <p>No progress notes available.</p>
+        }
+    </div>
+}
+else
+{
+    <p>Loading...</p>
+}
+
+@code {
+     [Parameter]
+     public string VisitId { get; set; }
+    // [Parameter]
+    // public string PatientId { get; set; }
+
+    private Visit visit;
+    private Patient patient;
+    private List<ProgressNote> progressNotes;
+
+    protected override async Task OnInitializedAsync()
+    {
+       // patient = await _IPatient.GetPatientById(Convert.ToInt32(PatientId));
+
+        visit = await IVisitor.GetVisitById(Convert.ToInt32(VisitId));
+
+        progressNotes = await IVisitor.GetProgressNotesByVisitId(Convert.ToInt32(VisitId));
+    }
+}

@@ -30,7 +30,7 @@ namespace MedUnifyApi.Service
             return patient.PatientId;
         }
 
-        public async Task<bool> UpdatePatientAsync(int patientId, Patient updatedPatient)
+        public async Task<bool> UpdatePatient(int patientId, Patient updatedPatient)
         {
             var existingPatient = await _context.Patients.FindAsync(patientId);
 
@@ -51,7 +51,7 @@ namespace MedUnifyApi.Service
             return true;
         }
 
-        public async Task<bool> DeletePatientAsync(int patientId)
+        public async Task<bool> DeletePatient(int patientId)
         {
             var patient = await _context.Patients.FindAsync(patientId);
 

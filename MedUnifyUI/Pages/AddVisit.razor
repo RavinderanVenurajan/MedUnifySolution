@@ -6,9 +6,10 @@
 
 <h3>Add Visit</h3>
 
+
 <div class="row">
     <div class="col-md-6">
-        <!-- Existing form for adding a visit -->
+     
         <EditForm Model="@visitDto" OnValidSubmit="@AddVisitWithProgressNotes">
             <DataAnnotationsValidator />
             <ValidationSummary />
@@ -20,11 +21,11 @@
 
             <div class="form-group">
                 <label for="visitDate">Visit Date:</label>
-                <InputDate id="visitDate" @bind-Value="visitDto.VisitDate" class="form-control" min="@DateTime.Now.ToString("yyyy-MM-dd HH:MM")" />
+                @* <DateEdit TValue="DateTime" Format="yyyy-MM-dd HH:mm" @bind-Value="visitDto.VisitDate" min="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" /> *@
+                <InputDate id="visitDate" @bind-Value="visitDto.VisitDate" Format="yyyy-MM-dd HH:mm" class="form-control" min="@DateTime.Now.ToString("yyyy-MM-dd HH:MM")" />
                 <ValidationMessage For="@(() => visitDto.VisitDate)" />
             </div>
 
-            <!-- Dynamic form for progress notes -->
            <br />
              <div class="form-group">
                 <label>Progress Notes:</label>
@@ -48,7 +49,7 @@
         {
             <h4>Progress Notes for Patient @visitDto.PatientId</h4>
             <ul>
-                @foreach (var note in visitDto.ProgressNotes)
+@*                 @foreach (var note in visitDto.ProgressNotes)
                 {
                     @if (note.SectionName!="")
                     {
@@ -56,7 +57,7 @@
                             <strong>@note.SectionName</strong> 
                         </li>
                     }
-                }
+                } *@
             </ul>
         }
         else
@@ -84,8 +85,8 @@
 
     private void InitializeNewVisit()
     {
-        visitDto.ProgressNotes = new List<ProgressNote>();
-        AddProgressNote(); // Add an initial progress note
+      //  visitDto.ProgressNotes = new List<ProgressNote>();
+        AddProgressNote(); 
     }
 
     private async Task LoadProgressNotes()
@@ -104,7 +105,7 @@
     {
         Notes.VisitId = visitDto.Id;
         IVisitor.AddVisitProgressNotes(Notes);
-        // Add a new empty progress note to the list
+     
        // visitDto.ProgressNotes.Add(Notes);
     }
 
@@ -112,23 +113,22 @@
     {
         try
         {
-            var result = await IVisitor.AddVisitWithProgressNotes(visitDto);
+            var result = await IVisitor.AddVisit(visitDto);
 
-            // Check the result and handle it as needed
-            if (result.IsSuccessStatusCode)
+           
+            if (result!=null)
             {
                 // Success, reload progress notes
                 await LoadProgressNotes();
             }
             else
             {
-                // Failure, handle the error
-                // You may display an error message or log the error
+             
             }
         }
         catch (Exception ex)
         {
-            // Handle the exception, e.g., log or display an error message
+           
         }
     }
 }

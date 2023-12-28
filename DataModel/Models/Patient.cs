@@ -9,8 +9,8 @@
         public string State { get; set; }
         public string City { get; set; }
         public int OrganizationId { get; set; }
-        public DateTime CreatedAt { get; set; }
-        public DateTime UpdatedAt { get; set; }
+        public DateTime CreatedAt { get; set; } = DateTime.Now;
+        public DateTime UpdatedAt { get; set; } = DateTime.Now;
         public bool IsDeleted { get; set; }
     }
 }

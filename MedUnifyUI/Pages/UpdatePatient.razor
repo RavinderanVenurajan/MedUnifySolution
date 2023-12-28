@@ -1,0 +1,49 @@
+﻿@page "/updatepatient/{patientId}"
+@using DataModel.Models;
+@using MedUnifyUI.Services;
+@inject HttpClient httpClient
+@inject IPatientInterface _IPatient
+@inject NavigationManager NavigationManager
+
+<h3>Update Patient</h3>
+
+@if (patient != null)
+{
+    <form>
+        <label for="firstName">First Name:</label>
+        <input type="text" id="firstName" @bind="patient.FirstName" />
+
+        <label for="lastName">Last Name:</label>
+        <input type="text" id="lastName" @bind="patient.LastName" />
+
+        <label for="address">Address:</label>
+        <input type="text" id="address" @bind="patient.Address" />
+
+       
+        <button type="button" @onclick="UpdatePatients">Update Patient</button>
+    </form>
+}
+else
+{
+    <p>Loading...</p>
+}
+
+@code {
+    [Parameter]
+    public string PatientId { get; set; }
+
+    private Patient patient;
+
+    protected override async Task OnInitializedAsync()
+    {
+        patient = await _IPatient.GetPatientById(Convert.ToInt32(PatientId));
+    }
+
+    private async Task UpdatePatients()
+    {
+       
+        await _IPatient.UpdatePatient(Convert.ToInt32(PatientId), patient);
+        
+        NavigationManager.NavigateTo("/Patient");
+    }
+}

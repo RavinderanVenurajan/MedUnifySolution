@@ -5,9 +5,9 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MedUnifyApi", "MedUnifyApi\MedUnifyApi.csproj", "{B20C8565-C2B2-4005-8D4A-2A1B3004EE4B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MedUnifyUI", "MedUnifyUI\MedUnifyUI.csproj", "{BDE84690-3F60-440A-9569-3FB7AABD521D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MedUnifyUI", "MedUnifyUI\MedUnifyUI.csproj", "{BDE84690-3F60-440A-9569-3FB7AABD521D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataModel", "DataModel\DataModel.csproj", "{5F0AF11B-CB92-463B-A14A-44E88C8ABCFC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataModel", "DataModel\DataModel.csproj", "{5F0AF11B-CB92-463B-A14A-44E88C8ABCFC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

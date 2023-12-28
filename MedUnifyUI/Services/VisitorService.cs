@@ -30,78 +30,45 @@ namespace MedUnifyUI.Services
             return addedProgressNote;
         }
 
-            public async Task<HttpResponseMessage> AddVisitWithProgressNotes(Visit visitDto)
+            public async Task<Visit> AddVisit(Visit visitDto)
         {
             // Placeholder validation - Replace with actual validation logic
             if (visitDto.PatientId <= 0)
             {
-                // Display an error message or handle the validation failure
-                return new HttpResponseMessage { StatusCode = System.Net.HttpStatusCode.BadRequest };
             }
 
             // Placeholder logic to add the visit
-            var addedVisit = await _httpClient.PostAsJsonAsync<Visit>("api/visits", visitDto);
+            var addedVisit = await _httpClient.PostAsJsonAsync<Visit>("api/visit", visitDto);
             if (addedVisit.IsSuccessStatusCode)
             {
-                // Placeholder logic to add progress notes
-                foreach (var progressNote in visitDto.ProgressNotes)
-                {
-                    // Set the visit ID for each progress note
-                    progressNote.VisitId = visitDto.Id;
-
-                    // Call the API to add progress notes
-                    var addedProgressNote = await _httpClient.PostAsJsonAsync<ProgressNote>("api/progressnotes", progressNote);
-                    if (!addedProgressNote.IsSuccessStatusCode)
-                    {
-                        // Handle the failure to add progress notes
-                        // You may choose to roll back the visit addition or handle it as needed
-                        // Display an error message or log the error
-                        return addedProgressNote;
-                    }
-                }
-
-                return addedVisit;
+               return await addedVisit.Content.ReadFromJsonAsync<Visit>();
             }
             else
             {
-                // Handle the failure to add the visit
-                // Display an error message or log the error
-                return addedVisit;
+                return null;
             }
         }
 
-        /* public async Task AddVisit(VisitWithProgressNotesDto newVisit)
-         {
-             try
-             {
-                 // Assuming your API endpoint for adding a visit is "/api/visits"
-                 var response = await _httpClient.PostAsJsonAsync("/api/visits", newVisit);
+        public async Task<Visit> GetVisitById(int visitId)
+        {
+            return await _httpClient.GetFromJsonAsync<Visit>($"/api/visit/{visitId}");
+        }
 
-                 // Check if the request was successful
-                 response.EnsureSuccessStatusCode();
-                 if (response.IsSuccessStatusCode)
-                 {
-                     isSuccess = true;
-                     isError = false;
-                     // Optionally, you can redirect or perform other actions upon success
-                 }
-                 else
-                 {
-                     isSuccess = false;
-                     isError = true;
-                     // Handle error, e.g., display an error message
-                 }
+        public async Task<List<ProgressNote>> GetProgressNotesByVisitId(int visitId)
+        {
+            return await _httpClient.GetFromJsonAsync<List<ProgressNote>>($"api/visit/{visitId}/progressnotes");
+        }
 
-                 // You might want to read the response content if the API returns additional data
-                 // var addedVisit = await response.Content.ReadFromJsonAsync<Visit>();
+        public async Task<List<Visit>> GetAllVisits()
+        {
+            return await _httpClient.GetFromJsonAsync<List<Visit>>("/api/visit");
+        }
 
-                 // Note: You may choose to return the added visit if the API returns it
-             }
-             catch (Exception ex)
-             {
-                 // Log or handle the exception as needed
-                 throw new ApplicationException($"Error adding visit: {ex.Message}");
-             }
-         }*/
+        public async Task<List<Visit>> GetVisitsByPatientIdAsync(int patientId)
+        {
+            return await _httpClient.GetFromJsonAsync<List<Visit>>($"/api/visit/patient/{patientId}");
+        }
+
+      
     }
 }

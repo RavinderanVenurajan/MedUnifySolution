@@ -1,0 +1,66 @@
+﻿@page "/visit-list/{PatientId}"
+@using DataModel.Models;
+@using MedUnifyUI.Services;
+@inject HttpClient httpClient
+@inject IPatientInterface _IPatient
+@inject NavigationManager NavigationManager
+@inject IVisitorService IVisitor
+
+<h3>Visit List</h3>
+
+@if (visits != null && visits.Any())
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Patient ID</th>
+                <th>Visit Date</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var visit in visits)
+            {
+                <tr>
+                    <td>@visit.Id</td>
+                    <td>@visit.PatientId</td>
+                    <td>@visit.VisitDate.ToString("yyyy-MM-dd HH:mm:ss")</td>
+                    <td><button @onclick="() => ViewProgressNotes(visit.Id)">View Progress Notes</button></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No visits found.</p>
+}
+
+@if (!string.IsNullOrEmpty(progressNotes))
+{
+    <h4>Progress Notes</h4>
+    <p>@progressNotes</p>
+}
+
+@code {
+    [Parameter]
+    public string PatientId { get; set; }
+
+    private List<Visit> visits;
+    private string progressNotes;
+
+    protected override async Task OnInitializedAsync()
+    {
+       
+        visits = await IVisitor.GetVisitsByPatientIdAsync(Convert.ToInt32(PatientId));
+    }
+
+    private async Task ViewProgressNotes(int visitId)
+    {
+        NavigationManager.NavigateTo($"/viewvisit/{visitId}");
+       
+     //   var progressNotesResponse = await IVisitor.GetProgressNotesByVisitIdAsync(visitId);
+      //  progressNotes = progressNotesResponse != null ? string.Join(", ", progressNotesResponse.Select(p => $"{p.SectionName}: {p.SectionText}")) : "No progress notes available.";
+    }
+}

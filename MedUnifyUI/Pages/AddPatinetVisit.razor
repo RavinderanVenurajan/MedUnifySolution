@@ -1,0 +1,70 @@
+﻿@page "/addvisit/{patientId}"
+@using DataModel.Models;
+@using MedUnifyUI.Services;
+@inject HttpClient httpClient
+@inject IPatientInterface _IPatient
+@inject NavigationManager NavigationManager
+@inject IVisitorService IVisitor
+
+
+<h3>Add Visit</h3>
+
+@if (patient != null)
+{
+     <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Patient First Name</th>
+                <th>Patient Last Name</th>
+                <th>Patient Address</th>
+            </tr>
+        </thead>
+          <tbody>
+         
+                <tr>
+                    <td>@patient.FirstName</td>
+                    <td>@patient.LastName</td>
+                    <td>@patient.Address</td>
+               </tr>
+          </tbody>
+     </table>
+
+    <EditForm Model="@newVisit" OnValidSubmit="AddVisit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="form-group">
+            <label for="visitDate">Visit Date:</label>
+            <input type="datetime-local" id="visitDate" TValue="DateTime" Format="yyyy-MM-dd HH:mm" @bind="newVisit.VisitDate" min="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" />
+    </div>
+        <br />
+        <button type="submit" class="btn btn-primary">Add Visit</button>
+    </EditForm>
+
+}
+else
+{
+    <p>Loading...</p>
+}
+
+@code {
+    [Parameter]
+    public string PatientId { get; set; }
+
+    private Patient patient;
+    private Visit newVisit = new Visit();
+
+    protected override async Task OnInitializedAsync()
+    {
+        // Fetch patient details based on the provided patientId
+        patient = await _IPatient.GetPatientById(Convert.ToInt32(PatientId));
+    }
+
+    private async Task AddVisit()
+    {
+        newVisit.PatientId = Convert.ToInt32(PatientId);
+        Visit visits = await IVisitor.AddVisit(newVisit);
+
+        NavigationManager.NavigateTo($"/addprogressnotes/{visits.Id}/{newVisit.PatientId}");
+    }
+}

@@ -1,0 +1,50 @@
+﻿<!-- Pages/Login.razor -->
+@page "/login"
+@using DataModel.Models;
+@inject HttpClient HttpClient
+@using MedUnifyUI.Services;
+@inject HttpClient httpClient
+@inject ILoginService _ILogin
+@inject ICookieService ICookie
+@inject NavigationManager NavigationManager
+
+<h3>Login</h3>
+
+<EditForm Model="@loginModel" OnValidSubmit="Logins">
+    <DataAnnotationsValidator />
+    <div class="mb-3">
+        <label for="username" class="form-label">Username:</label>
+        <InputText id="username" @bind-Value="loginModel.Username" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label for="password" class="form-label">Password:</label>
+        <InputText id="password" @bind-Value="loginModel.Password" type="password" class="form-control" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Login</button>
+</EditForm>
+
+@code {
+    private LoginModel loginModel = new LoginModel();
+
+    private async Task Logins()
+    {
+        var token = await _ILogin.LoginAsync(loginModel);
+
+
+        if (!string.IsNullOrEmpty(token.ToString()))
+        {
+            ICookie.SetCookieAsync(token.ToString());
+            
+           // Console.WriteLine($"Token: {token}");
+            NavigationManager.NavigateTo($"/Patient");
+        }
+        else
+        {
+            Console.WriteLine("Login failed");
+        }
+    }
+
+   
+}

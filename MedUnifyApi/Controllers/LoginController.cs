@@ -21,7 +21,7 @@ namespace MedUnifyApi.Controllers
         }
         [AllowAnonymous]
         [HttpPost]
-        public IActionResult Login([FromBody] User login)
+        public IActionResult Login([FromBody] LoginModel login)
         {
             IActionResult response = Unauthorized();
             var user = AuthenticateUser(login);
@@ -56,14 +56,14 @@ namespace MedUnifyApi.Controllers
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
-        private User AuthenticateUser(User login)
+        private User AuthenticateUser(LoginModel login)
         {
             User user = null;
 
             //Validate the User Credentials
-            if (login.Username == "Ravinderan")
+            if ((login.Username == "Admin")&&(login.Password=="Password1"))
             {
-                user = new User { Username = login.Username, EmailAddress = "v.ravinderan@gmail.com", DateOfJoing = new DateTime(2010, 08, 02) };
+                user = new User { Username = login.Username, EmailAddress = "Admin@gmail.com", DateOfJoing = new DateTime(2010, 08, 02) };
             }
             return user;
         }
