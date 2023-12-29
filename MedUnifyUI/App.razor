@@ -11,15 +11,23 @@
     </NotFound>
 </Router>
 
+@inject ICookieService ICookie
 @code {
     [Inject]
     private NavigationManager NavigationManager { get; set; }
 
-    protected override void OnInitialized()
-    {
-        
-       // NavigationManager.NavigateTo("/login", forceLoad: true);
-        NavigationManager.NavigateTo("/login");
+    protected async override void OnInitialized()
+    { 
+        string token = await ICookie.GetCookieAsync("accessToken");
+        if (token != null)
+        {
+            NavigationManager.NavigateTo("/Patient");
+        }
+        else
+        {
+            // NavigationManager.NavigateTo("/login", forceLoad: true);
+            NavigationManager.NavigateTo("/login");
+        }
 
     }
 }

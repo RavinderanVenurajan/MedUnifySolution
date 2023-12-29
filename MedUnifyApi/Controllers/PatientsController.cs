@@ -20,7 +20,7 @@ namespace MedUnifyApi.Controllers
 
         // GET: api/Patient
         [HttpGet]
-       
+        [Authorize]
         public IActionResult GetPatients()
         {
            
@@ -35,7 +35,7 @@ namespace MedUnifyApi.Controllers
 
         // GET: api/Patient/5
         [HttpGet("{id}")]
-       
+        [Authorize]
         public IActionResult GetPatient(int id)
         {
             var patient = _context.Patients.Find(id);
@@ -50,6 +50,7 @@ namespace MedUnifyApi.Controllers
 
         // POST: api/Patient
         [HttpPost]
+        [Authorize]
         public IActionResult CreatePatient([FromBody] Patient patient)
         {
             if (patient == null)
@@ -66,6 +67,7 @@ namespace MedUnifyApi.Controllers
 
         // PUT: api/Patient/5
         [HttpPut("{id}")]
+        [Authorize]
         public IActionResult UpdatePatient(int id, [FromBody] Patient updatedPatient)
         {
             var patient = _context.Patients.Find(id);
@@ -90,6 +92,7 @@ namespace MedUnifyApi.Controllers
 
         // DELETE: api/Patient/5
         [HttpDelete("{id}")]
+        [Authorize]
         public IActionResult DeletePatient(int id)
         {
             var patient = _context.Patients.Find(id);

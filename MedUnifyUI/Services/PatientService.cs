@@ -15,25 +15,26 @@ namespace MedUnifyUI.Services
             _httpClient = httpClient;
             _httpClient.BaseAddress = new Uri("https://localhost:7173/");
              cookieService = cookie;
-             SetJwtToken();
+           //  SetJwtToken();
         }
         public async Task<List<Patient>> getPatient()
         {
-            //string token = await cookieService.GetCookieAsync("accessToken");
-            //_httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            string token = await cookieService.GetCookieAsync("accessToken");
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
             var ValRet= await _httpClient.GetFromJsonAsync<List<Patient>>("api/Patient");
             return ValRet;
         }
         private async void SetJwtToken()
         {
-          //  string token = await cookieService.GetCookieAsync("accessToken");
-           // _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            string token = await cookieService.GetCookieAsync("accessToken");
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
         }
         public async Task<Patient> AddPatient(Patient newPatient)
         {
             try
             {
-
+                string token = await cookieService.GetCookieAsync("accessToken");
+                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
                 var response = await _httpClient.PostAsJsonAsync("/api/patient", newPatient);
 
@@ -54,15 +55,21 @@ namespace MedUnifyUI.Services
 
         public async Task DeletePatient(int patientId)
         {
+            string token = await cookieService.GetCookieAsync("accessToken");
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
             await _httpClient.DeleteAsync($"/api/patient/{patientId}");
         }
 
         public async Task UpdatePatient(int patientId, Patient updatedPatient)
         {
+            string token = await cookieService.GetCookieAsync("accessToken");
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
             await _httpClient.PutAsJsonAsync($"/api/patient/{patientId}", updatedPatient);
         }
         public async Task<Patient> GetPatientById(int patientId)
         {
+            string token = await cookieService.GetCookieAsync("accessToken");
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
             return await _httpClient.GetFromJsonAsync<Patient>($"/api/patient/{patientId}");
         }
     }

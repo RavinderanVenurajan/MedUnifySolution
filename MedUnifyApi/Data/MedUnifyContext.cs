@@ -8,7 +8,8 @@ namespace MedUnifyApi.Data
         public DbSet<Patient> Patients { get; set; }
         public DbSet<ProgressNote> ProgressNotes { get; set; }
         public DbSet<Visit> Visits { get; set; }
-       
+        public DbSet<User> User { get; set; }
+
         public MedUnifyContext(DbContextOptions<MedUnifyContext> options)
                : base(options)
         {

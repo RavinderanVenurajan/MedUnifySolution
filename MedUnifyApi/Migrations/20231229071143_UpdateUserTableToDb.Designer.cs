@@ -3,6 +3,7 @@ using System;
 using MedUnifyApi.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MedUnifyApi.Migrations
 {
     [DbContext(typeof(MedUnifyContext))]
-    partial class MedUnifyContextModelSnapshot : ModelSnapshot
+    [Migration("20231229071143_UpdateUserTableToDb")]
+    partial class UpdateUserTableToDb
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.1");
@@ -65,26 +68,26 @@ namespace MedUnifyApi.Migrations
                             PatientId = 1,
                             Address = "123 Main St",
                             City = "Los Angeles",
-                            CreatedAt = new DateTime(2023, 12, 29, 13, 2, 56, 349, DateTimeKind.Local).AddTicks(8827),
+                            CreatedAt = new DateTime(2023, 12, 29, 12, 41, 43, 502, DateTimeKind.Local).AddTicks(3002),
                             FirstName = "John",
                             IsDeleted = false,
                             LastName = "Doe",
                             OrganizationId = 1,
                             State = "CA",
-                            UpdatedAt = new DateTime(2023, 12, 29, 13, 2, 56, 349, DateTimeKind.Local).AddTicks(8829)
+                            UpdatedAt = new DateTime(2023, 12, 29, 12, 41, 43, 502, DateTimeKind.Local).AddTicks(3003)
                         },
                         new
                         {
                             PatientId = 2,
                             Address = "456 Oak St",
                             City = "New York",
-                            CreatedAt = new DateTime(2023, 12, 29, 13, 2, 56, 349, DateTimeKind.Local).AddTicks(8833),
+                            CreatedAt = new DateTime(2023, 12, 29, 12, 41, 43, 502, DateTimeKind.Local).AddTicks(3008),
                             FirstName = "Jane",
                             IsDeleted = false,
                             LastName = "Smith",
                             OrganizationId = 1,
                             State = "NY",
-                            UpdatedAt = new DateTime(2023, 12, 29, 13, 2, 56, 349, DateTimeKind.Local).AddTicks(8834)
+                            UpdatedAt = new DateTime(2023, 12, 29, 12, 41, 43, 502, DateTimeKind.Local).AddTicks(3008)
                         });
                 });
 
@@ -126,7 +129,7 @@ namespace MedUnifyApi.Migrations
                             SectionName = "Height",
                             SectionText = "5.6",
                             UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            VisitDate = new DateTime(2023, 12, 29, 13, 2, 56, 349, DateTimeKind.Local).AddTicks(9009),
+                            VisitDate = new DateTime(2023, 12, 29, 12, 41, 43, 502, DateTimeKind.Local).AddTicks(3184),
                             VisitId = 1
                         },
                         new
@@ -136,7 +139,7 @@ namespace MedUnifyApi.Migrations
                             SectionName = "Weight",
                             SectionText = "59 - Gradual decrease",
                             UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            VisitDate = new DateTime(2023, 12, 29, 13, 2, 56, 349, DateTimeKind.Local).AddTicks(9012),
+                            VisitDate = new DateTime(2023, 12, 29, 12, 41, 43, 502, DateTimeKind.Local).AddTicks(3188),
                             VisitId = 2
                         });
                 });
@@ -147,8 +150,7 @@ namespace MedUnifyApi.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("OrganizationId")
-                        .IsRequired()
+                    b.Property<DateTime>("OrganizationId")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Password")
