@@ -31,8 +31,8 @@ namespace MedUnifyApi.Migrations
              columns: new[] { "Username", "Password", "SecretKey", "OrganizationId" },
              values: new object[,]
                 {
-                    { "Admin", "PAssword1", "secret123dfkjdfidfhak5454af4asf54as", "1" },
-                    { "User1", "Password1", "secret456sdfds654dsf654sdf65d4sfds5", "2" },
+                    { "Admin", "Password1", "secret123dfkjdfidfhak5454af4asf54as", "1" },
+                    { "User1", "Password1", "secret123dfkjdfidfhak5454af4asf54as", "2" },
                   
                  });
 
